@@ -22,4 +22,17 @@ export default async function handler(request, response) {
       return;
     }
   }
+
+  if (request.method === "POST") {
+    try {
+      const newPlace = request.body;
+      await Place.create(newPlace);
+      response.status(201).json({ status: "Place created" });
+      return;
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Error creating place: " + error.message });
+    }
+  }
 }
