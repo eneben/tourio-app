@@ -33,4 +33,21 @@ export default async function handler(request, response) {
       return;
     }
   }
+
+  if (request.method === "PATCH") {
+    try {
+      const updatedPlace = request.body;
+      if (!updatedPlace) {
+        response.status(404).json({ status: "Not Found" });
+        return;
+      }
+      await Place.updateOne({ _id: id }, { $set: updatedPlace });
+      response.status(200).json({ message: "Place updated." });
+    } catch (error) {
+      response
+        .status(400)
+        .json({ error: "Error updating place: " + error.message });
+      return;
+    }
+  }
 }
