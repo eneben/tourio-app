@@ -50,4 +50,17 @@ export default async function handler(request, response) {
       return;
     }
   }
+
+  if (request.method === "DELETE") {
+    try {
+      await Place.findByIdAndDelete(id);
+      response.status(200).json({ message: "Place deleted." });
+      return;
+    } catch (error) {
+      response
+        .status(400)
+        .json({ error: "Error deleting place: " + error.message });
+      return;
+    }
+  }
 }
